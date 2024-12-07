@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <M5Unified.h>
 
-#include "RCS660S_ESP32.h"
+#include ".\src\RCS660S_ESP32.h"
 
 // M5 Core2
 #define UART_TX_PIN 33

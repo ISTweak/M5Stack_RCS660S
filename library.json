@@ -1,0 +1,37 @@
+{
+  "name": "RCS660S_ESP32",
+  "version": "0.0.1",
+  "description": "A custom library for RCS660S and ESP32",
+  "keywords": "rfid, nfc, felica, esp32",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tarusake/RCS660S_ESP32.git"
+  },
+  "authors": [
+    {
+      "name": "tarusake",
+      "email": "tkengji@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "arduino-esp32": "^2.0.0"
+  },
+  "frameworks": ["arduino"],
+  "platforms": ["espressif32"],
+  "build": {
+    "flags": [
+      "-I inc"
+    ],
+    "srcDir": "src",
+    "includeDir": "src"
+  },
+  "examples": [
+    {
+      "name": "Basic",
+      "base": "example",
+      "files": ["basic.ino"]
+    }
+  ]
+}

@@ -9,8 +9,9 @@
 RCS660S::RCS660S(Stream &serial)
 {
     _serial = &serial;
-    this->timeout = 1000;  // Default timeout 1000ms
-    this->bseq = 0x0;      // Initialize sequence number
+    this->timeout = 1000;         // Default timeout 1000ms
+    this->bseq = 0x0;             // Initialize sequence number
+    this->logLevel = LOG_ERROR;   // Debug mode off by default
 }
 
 /**
@@ -156,9 +157,11 @@ int RCS660S::receive_ccid_response(uint8_t *response, uint16_t *response_len)
     *response_len = pd_len;
 
     // Debug output
-    Serial.printf("CCID Response (%d bytes): ", pd_len);
-    printHexArray(response, pd_len);
-
+    if (this->logLevel >= LOG_DEBUG)
+    {
+        Serial.printf("CCID Response (%d bytes): ", pd_len);
+        printHexArray(response, pd_len);
+    }
     return 1;
 }
 
@@ -244,8 +247,11 @@ int RCS660S::write_apdu(const uint8_t *data, uint32_t data_len)
     buf_len = 10 + data_len;
 
     // Debug output
-    Serial.printf("CCID Command (%d bytes): ", buf_len);
-    printHexArray(buf, buf_len);
+    if (this->logLevel >= LOG_DEBUG)
+    {
+        Serial.printf("CCID Command (%d bytes): ", buf_len);
+        printHexArray(buf, buf_len);
+    }
 
     // Send command and wait for acknowledgment
     send_ccid_command(buf, buf_len);
@@ -367,10 +373,11 @@ void RCS660S::writeSerial(
 {
     _serial->write(data, len);
 
-#ifdef UART_DEBUG
-    Serial.print("WriteSerial : ");
-    printHexArray(data, len);
-#endif
+    if (this->logLevel >= LOG_DEBUG)
+    {
+        Serial.print("WriteSerial : ");
+        printHexArray(data, len);
+    }
 }
 
 int RCS660S::readSerial(
@@ -394,11 +401,11 @@ int RCS660S::readSerial(
         }
     }
 
-#ifdef UART_DEBUG
-    Serial.print("ReadSerial  : ");
-    printHexArray(data, len);
-#endif
-
+    if (this->logLevel >= LOG_DEBUG)
+    {
+        Serial.print("ReadSerial  : ");
+        printHexArray(data, len);
+    }
     return 1;
 }
 

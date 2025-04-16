@@ -60,6 +60,17 @@ public:
     uint8_t idm[8];        // Card ID information
     uint8_t pmm[8];        // Card manufacturer information
 
+    // Log level enum
+    enum LogLevel {
+        LOG_ERROR = 0,
+        LOG_WARN,
+        LOG_INFO,
+        LOG_DEBUG
+    };
+
+    // Current log level
+    LogLevel logLevel;
+
 private:
     Stream *_serial;       // Serial interface
     uint8_t bseq;         // Sequence number for CCID commands
